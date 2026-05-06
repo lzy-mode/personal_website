@@ -208,8 +208,8 @@ export default {
                 ]
             },
             {
-                title: '作品-牛肉零售',
-                description: '牛肉零售管理项目，分为运营平台与商户平台两大模块。运营端统一管控商品上架、统筹配货调度；商户端自主上架货品、一键提交配货申请，同时支持收银机登录桌面收银系统，实现商品称重、线下零售收银全流程，打通总部统筹 + 门店零售的一体化牛肉售卖管理体系。',
+                title: '作品-零售平台',
+                description: '零售平台项目，分为运营平台与商户平台两大模块。运营端统一管控商品上架、统筹配货调度；商户端自主上架货品、一键提交配货申请，同时支持收银机登录桌面收银系统，实现商品称重、线下零售收银全流程，打通总部统筹 + 门店零售的一体化牛肉售卖管理体系。',
                 image: new URL('../assets/img/nr/nr1.png', import.meta.url).href,
                 tags: ['零售', '门店运营', '称重收银'],
                 galleryImages: [
@@ -234,7 +234,6 @@ export default {
                     new URL('../assets/img/xm/xm3.PNG', import.meta.url).href,
                     new URL('../assets/img/xm/xm4.PNG', import.meta.url).href,
                     new URL('../assets/img/xm/xm5.PNG', import.meta.url).href,
-                    new URL('../assets/img/xm/xm6.PNG', import.meta.url).href,
                     new URL('../assets/img/xm/xm7.PNG', import.meta.url).href,
                     new URL('../assets/img/xm/xm8.PNG', import.meta.url).href,
                     new URL('../assets/img/xm/xm9.PNG', import.meta.url).href,
