@@ -234,8 +234,8 @@ export default {
                     new URL('../assets/img/xm/xm3.PNG', import.meta.url).href,
                     new URL('../assets/img/xm/xm4.PNG', import.meta.url).href,
                     new URL('../assets/img/xm/xm5.PNG', import.meta.url).href,
-                    new URL('../assets/img/xm/xm7.PNG', import.meta.url).href,
                     new URL('../assets/img/xm/xm8.PNG', import.meta.url).href,
+                    new URL('../assets/img/xm/xm7.PNG', import.meta.url).href,
                     new URL('../assets/img/xm/xm9.PNG', import.meta.url).href,
                     new URL('../assets/img/xm/xm10.PNG', import.meta.url).href,
                     new URL('../assets/img/xm/xm11.PNG', import.meta.url).href
