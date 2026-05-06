@@ -69,10 +69,6 @@ watch(
 );
 
 onMounted(() => {
-  if (props.mode === "type" && props.text) {
-    queue = props.text.split("");
-    typeWriter();
-  }
 });
 </script>
 
@@ -80,16 +76,37 @@ onMounted(() => {
 .stream-typing {
   font-family: monospace;
   white-space: pre-wrap;
+  font-size: 1.25rem;
+  line-height: 1.6;
 }
 
 .cursor {
   display: inline-block;
   margin-left: 2px;
   animation: blink 1s infinite;
+  font-size: inherit;
 }
 
 @keyframes blink {
   0%, 50%, 100% { opacity: 1; }
   25%, 75% { opacity: 0; }
+}
+
+@media screen and (max-width: 768px) {
+  .stream-typing {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .cursor {
+    margin-left: 1px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .stream-typing {
+    font-size: 1.5rem;
+    line-height: 1.8;
+  }
 }
 </style>

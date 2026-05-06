@@ -20,56 +20,77 @@
                             {{ letter }}
                         </span>
                     </h1>
-                    <p class="hero-subtitle">Creative Developer</p>
+                    <!-- <p class="hero-subtitle">Creative Developer</p> -->
                     <!-- 打字机效果组件 -->
-                    <!-- <StreamTyping
+                    <StreamTyping
                         mode="type"
-                        :text="'Hello Vue 打字机效果！Hello Vue 打字机效果！Hello Vue 打字机效果！Hello Vue 打字机效果！Hello Vue 打字机效果！'"
+                        :text="'Hello World，欢迎造访前端开发者 Lzy 的个人空间！'"
                         :speed="50"
-                    /> -->
-                    <StreamTyping mode="stream" :stream="streamText" />
-                    <div class="scroll-hint">
-                        <span>SCROLL</span>
+                    />
+                    <!-- <StreamTyping mode="stream" :stream="streamText" /> -->
+                    <!-- <div class="scroll-hint">
+                        <span></span>
                         <div class="scroll-line"></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>
         
-        <section class="gallery-section" id="gallery">
-            <div class="section-title">
-                <span class="title-line"></span>
-                <h2>PORTFOLIO</h2>
-                <span class="title-line"></span>
+        <!-- 项目介绍 -->
+        <section 
+            v-for="(project, pIndex) in projects" 
+            :key="project.title"
+            :id="'project-' + (pIndex + 1)"
+            class="project-detail-section"
+        >
+            <div class="project-detail-header">
+                <div class="section-title">
+                    <span class="title-line"></span>
+                    <h2>{{ project.title }}</h2>
+                    <span class="title-line"></span>
+                </div>
+                <div class="project-detail-tags">
+                    <span v-for="tag in project.tags" :key="tag" class="project-tag">{{ tag }}</span>
+                </div>
             </div>
             
-            <div class="gallery-container">
-                <div 
-                    v-for="(image, index) in images" 
-                    :key="index" 
-                    class="gallery-item animate-on-scroll"
-                    :class="{ active: activeIndex === index }"
-                    @click="openLightbox(index)"
-                >
-                    <div class="image-wrapper">
-                        <img :src="image.path" :alt="image.title" class="gallery-image" />
-                        <div class="image-overlay">
-                            <div class="overlay-content">
-                                <h3>{{ image.title }}</h3>
-                                <p>{{ image.description }}</p>
-                            </div>
+            <div class="project-detail-content">
+                <div class="project-detail-gallery">
+                    <div 
+                        v-for="(img, imgIndex) in project.galleryImages.slice(0, 6)" 
+                        :key="imgIndex"
+                        class="project-detail-image animate-on-scroll"
+                        :style="{ '--delay': imgIndex * 0.1 + 's' }"
+                        @click="openProjectImage(project, imgIndex)"
+                    >
+                        <img :src="img" :alt="project.title + ' - 图片 ' + (imgIndex + 1)" />
+                        <div class="image-click-overlay">
+                            <span class="click-icon">+</span>
                         </div>
-                        <div class="image-glow"></div>
                     </div>
+                </div>
+                
+                <button 
+                    v-if="project.galleryImages.length > 6" 
+                    class="view-all-btn animate-on-scroll"
+                    @click="openProjectImage(project, 0)"
+                >
+                    <span>查看全部 {{ project.galleryImages.length }} 张图片</span>
+                    <span class="view-all-arrow">→</span>
+                </button>
+                
+                <div class="project-detail-description animate-on-scroll">
+                    <p>{{ project.description }}</p>
                 </div>
             </div>
         </section>
         
+        <!-- 关于我 -->
         <section class="about-section" id="about">
             <div class="about-content">
                 <div class="about-image-container animate-on-scroll">
                     <div class="about-image-wrapper">
-                        <img :src="images[0].path" alt="About Me" class="about-image" />
+                        <img src="../assets/img/mine.png" alt="About Me" class="about-image" />
                         <div class="image-border"></div>
                         <div class="image-shadow"></div>
                     </div>
@@ -77,63 +98,34 @@
                 <div class="about-text animate-on-scroll" style="--delay: 0.2s;">
                     <h2 class="about-title">ABOUT ME</h2>
                     <p class="about-description">
-                        I'm a passionate creative developer with a love for design and technology. 
-                        Creating immersive digital experiences is my passion, blending art with code 
-                        to build beautiful and functional applications.
+                        我是一名前端开发工程师，热爱设计与开发，享受日常开发中从需求拆解、项目搭建到功能落地的完整过程，沉浸于解决问题、持续迭代优化的每一刻，在创作与实践中收获成就感与乐趣。
+                    </p>
+                    <p class="about-description">
+                        掘金博客：<a href="https://juejin.cn/user/1424622661933991" target="_blank">https://juejin.cn/user/1745282846683045</a>
+                    </p>
+                    <p class="about-description">
+                        NPM 开源贡献：<a href="https://www.npmjs.com/~lzy-ctrl" target="_blank">https://www.npmjs.com/~lzy-ctrl</a>
                     </p>
                     <div class="about-stats">
                         <div class="stat-item">
-                            <span class="stat-number">5+</span>
+                            <span class="stat-number">4+</span>
                             <span class="stat-label">Years Experience</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number">100+</span>
+                            <span class="stat-number">20+</span>
                             <span class="stat-label">Projects</span>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">50+</span>
-                            <span class="stat-label">Clients</span>
-                        </div>
                     </div>
                 </div>
             </div>
         </section>
         
-        <section class="projects-section" id="projects">
-            <div class="section-title">
-                <span class="title-line"></span>
-                <h2>FEATURED WORK</h2>
-                <span class="title-line"></span>
-            </div>
-            
-            <div class="projects-container">
-                <div 
-                    v-for="(project, index) in projects" 
-                    :key="index" 
-                    class="project-card animate-on-scroll"
-                    :style="{ '--delay': index * 0.2 + 's' }"
-                >
-                    <div class="project-image-wrapper">
-                        <img :src="project.image" :alt="project.title" class="project-image" />
-                        <div class="project-overlay">
-                            <div class="project-tags">
-                                <span v-for="tag in project.tags" :key="tag" class="project-tag">{{ tag }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <h3 class="project-title">{{ project.title }}</h3>
-                        <p class="project-description">{{ project.description }}</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
+        <!-- 联系我 -->
         <section class="contact-section" id="contact">
             <div class="contact-content animate-on-scroll">
                 <h2 class="contact-title">GET IN TOUCH</h2>
                 <p class="contact-subtitle">Let's create something amazing together</p>
-                <form class="contact-form" @submit.prevent="handleSubmit">
+                <form class="contact-form" @submit.prevent="sendEmail()">
                     <div class="form-group">
                         <input type="text" placeholder="YOUR NAME" class="form-input" v-model="formData.name" />
                         <span class="input-border"></span>
@@ -154,44 +146,31 @@
             </div>
         </section>
         
-        <footer class="footer">
-            <div class="footer-content">
-                <p>&copy; 2024 Creative Portfolio. All rights reserved.</p>
-            </div>
-        </footer>
+    </div>
+    
+    <div v-if="imagePreviewOpen" class="image-preview-modal" @click.self="closeImagePreview">
+        <button class="preview-close" @click="closeImagePreview">×</button>
+        <button class="preview-prev" @click.stop="prevImage" :disabled="currentPreviewIndex === 0">‹</button>
+        <button class="preview-next" @click.stop="nextImage" :disabled="currentPreviewIndex === (currentPreviewProject?.galleryImages.length - 1)">›</button>
         
-        <div v-if="lightboxOpen" class="lightbox" @click="closeLightbox">
-            <button class="lightbox-close" @click="closeLightbox">X</button>
-            <img :src="images[lightboxIndex].path" :alt="images[lightboxIndex].title" class="lightbox-image" />
-            <div class="lightbox-info">
-                <h3>{{ images[lightboxIndex].title }}</h3>
-                <p>{{ images[lightboxIndex].description }}</p>
+        <div class="preview-content">
+            <img 
+                :src="currentPreviewProject?.galleryImages[currentPreviewIndex]" 
+                :alt="currentPreviewProject?.title + ' - 图片 ' + (currentPreviewIndex + 1)" 
+                class="preview-image" 
+            />
+            <div class="preview-info">
+                <span class="preview-title">{{ currentPreviewProject?.title }}</span>
+                <span class="preview-counter">{{ currentPreviewIndex + 1 }} / {{ currentPreviewProject?.galleryImages.length }}</span>
             </div>
         </div>
-        
-        <nav class="floating-nav">
-            <button class="nav-dot" :class="{ active: currentSection === 'hero' }" @click="scrollToSection(0)">
-                <span class="nav-dot-inner"></span>
-            </button>
-            <button class="nav-dot" :class="{ active: currentSection === 'gallery' }" @click="scrollToSection(1)">
-                <span class="nav-dot-inner"></span>
-            </button>
-            <button class="nav-dot" :class="{ active: currentSection === 'about' }" @click="scrollToSection(2)">
-                <span class="nav-dot-inner"></span>
-            </button>
-            <button class="nav-dot" :class="{ active: currentSection === 'projects' }" @click="scrollToSection(3)">
-                <span class="nav-dot-inner"></span>
-            </button>
-            <button class="nav-dot" :class="{ active: currentSection === 'contact' }" @click="scrollToSection(4)">
-                <span class="nav-dot-inner"></span>
-            </button>
-        </nav>
     </div>
 </template>
 
 <script>
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import StreamTyping from '../components/StreamTyping.vue'
+import emailjs from '@emailjs/browser';
 export default {
     components: {
         StreamTyping
@@ -203,37 +182,102 @@ export default {
             for (const chunk of chunks) {
                 await new Promise(r => setTimeout(r, 500));
                 streamText.value += chunk;
-                console.log(streamText.value);
+                // console.log(streamText.value);
             }
         };
         mockStream();
 
-        const images = ref([
-            { path: new URL('../assets/1.png', import.meta.url).href, title: 'Project Alpha', description: 'A stunning visual project' },
-            { path: new URL('../assets/2.png', import.meta.url).href, title: 'Project Beta', description: 'Creative design showcase' },
-            { path: new URL('../assets/3.png', import.meta.url).href, title: 'Project Gamma', description: 'Innovative web experience' },
-            { path: new URL('../assets/4.jpg', import.meta.url).href, title: 'Project Delta', description: 'Modern UI design' },
-            { path: new URL('../assets/5.jpeg', import.meta.url).href, title: 'Project Epsilon', description: 'Interactive masterpiece' }
-        ]);
-
         const projects = ref([
             {
-                title: 'Digital Art Gallery',
-                description: 'A virtual gallery showcasing digital art with immersive experiences',
-                image: new URL('../assets/1.png', import.meta.url).href,
-                tags: ['WebGL', 'Three.js', 'Vue.js']
+                title: '作品-智慧牧场',
+                description: '智慧牧场依托物联网与大数据技术，采用牛胃智能胶囊无感监测方案。将胶囊设备置入牛胃，全天候实时采集牛胃温度、三轴运动偏移等核心数据。通过平台智能分析研判，掌握牛只健康状态、活动规律与消化情况，替代传统经验养殖，为牧场主提供健康预警、精准饲喂、科学管护等养殖方案，助力牧场科学养殖。',
+                image: new URL('../assets/img/mc/mc1.png', import.meta.url).href,
+                tags: ['胶囊', '数据采集', '生命周期', '科学养殖'],
+                galleryImages: [
+                    new URL('../assets/img/mc/mc1.png', import.meta.url).href,
+                    new URL('../assets/img/mc/mc2.png', import.meta.url).href,
+                    new URL('../assets/img/mc/mc3.png', import.meta.url).href,
+                    new URL('../assets/img/mc/mc4.png', import.meta.url).href,
+                    new URL('../assets/img/mc/mc5.png', import.meta.url).href,
+                    new URL('../assets/img/mc/mc6.png', import.meta.url).href,
+                    new URL('../assets/img/mc/mc7.jpg', import.meta.url).href,
+                    new URL('../assets/img/mc/mc8.PNG', import.meta.url).href,
+                    new URL('../assets/img/mc/mc9.PNG', import.meta.url).href,
+                    new URL('../assets/img/mc/mc10.PNG', import.meta.url).href,
+                    new URL('../assets/img/mc/mc11.jpg', import.meta.url).href
+                ]
             },
             {
-                title: 'Interactive Dashboard',
-                description: 'Real-time data visualization with beautiful animations',
-                image: new URL('../assets/2.png', import.meta.url).href,
-                tags: ['React', 'D3.js', 'Node.js']
+                title: '作品-牛肉零售',
+                description: '牛肉零售管理项目，分为运营平台与商户平台两大模块。运营端统一管控商品上架、统筹配货调度；商户端自主上架货品、一键提交配货申请，同时支持收银机登录桌面收银系统，实现商品称重、线下零售收银全流程，打通总部统筹 + 门店零售的一体化牛肉售卖管理体系。',
+                image: new URL('../assets/img/nr/nr1.png', import.meta.url).href,
+                tags: ['零售', '门店运营', '称重收银'],
+                galleryImages: [
+                    new URL('../assets/img/nr/nr1.png', import.meta.url).href,
+                    new URL('../assets/img/nr/nr2.png', import.meta.url).href,
+                    new URL('../assets/img/nr/nr3.png', import.meta.url).href,
+                    new URL('../assets/img/nr/nr4.png', import.meta.url).href,
+                    new URL('../assets/img/nr/nr5.png', import.meta.url).href,
+                    new URL('../assets/img/nr/nr6.png', import.meta.url).href,
+                    new URL('../assets/img/nr/nr7.png', import.meta.url).href,
+                    new URL('../assets/img/nr/nr8.png', import.meta.url).href
+                ]
             },
             {
-                title: 'E-commerce Platform',
-                description: 'Modern online shopping experience with advanced features',
-                image: new URL('../assets/3.png', import.meta.url).href,
-                tags: ['Vue.js', 'Express', 'MongoDB']
+                title: '作品-星梦短剧',
+                description: '星梦短剧项目采用多站点架构，后台支持多 APP 站点统一管理，可对短剧剧集、会员权限、售卖价格等内容进行配置，同时兼顾订单数据统筹管理。用户在 APP 端可浏览短剧内容，完成点赞、收藏等互动操作，支持支付宝支付，可自主购买会员或单部剧集，打造短剧观看与付费消费体验。',
+                image: new URL('../assets/img/xm/xm1.PNG', import.meta.url).href,
+                tags: ['多站管理', 'APP', '短剧'],
+                galleryImages: [
+                    new URL('../assets/img/xm/xm1.PNG', import.meta.url).href,
+                    new URL('../assets/img/xm/xm2.PNG', import.meta.url).href,
+                    new URL('../assets/img/xm/xm3.PNG', import.meta.url).href,
+                    new URL('../assets/img/xm/xm4.PNG', import.meta.url).href,
+                    new URL('../assets/img/xm/xm5.PNG', import.meta.url).href,
+                    new URL('../assets/img/xm/xm6.PNG', import.meta.url).href,
+                    new URL('../assets/img/xm/xm7.PNG', import.meta.url).href,
+                    new URL('../assets/img/xm/xm8.PNG', import.meta.url).href,
+                    new URL('../assets/img/xm/xm9.PNG', import.meta.url).href,
+                    new URL('../assets/img/xm/xm10.PNG', import.meta.url).href,
+                    new URL('../assets/img/xm/xm11.PNG', import.meta.url).href
+                ]
+            },
+            {
+                title: '作品-无人机配送',
+                description: '无人机智能配送项目采用多端协同架构。中台系统统一管理智能机柜、无人机站点、调度中心及骑手提现审核等核心业务；商户后台支持商品上架、订单处理、发货管理等门店运营操作；骑手 H5 端可完成接单、取货确认、送达完成等流程操作，同时查询入账明细与自主提现；用户商城 H5 端支持微信支付下单、收货地址配置、订单及实时物流轨迹查询，依托无人机自动化配送，实现高效、短途即时配送全链路服务。',
+                image: new URL('../assets/img/wrj/wrj1.PNG', import.meta.url).href,
+                tags: ['电商', '无人机', '多端协同'],
+                galleryImages: [
+                    new URL('../assets/img/wrj/wrj1.PNG', import.meta.url).href,
+                    new URL('../assets/img/wrj/wrj2.PNG', import.meta.url).href,
+                    new URL('../assets/img/wrj/wrj3.PNG', import.meta.url).href,
+                    new URL('../assets/img/wrj/wrj4.PNG', import.meta.url).href,
+                    new URL('../assets/img/wrj/wrj5.PNG', import.meta.url).href,
+                    new URL('../assets/img/wrj/wrj6.PNG', import.meta.url).href,
+                    new URL('../assets/img/wrj/wrj7.PNG', import.meta.url).href,
+                    new URL('../assets/img/wrj/wrj8.PNG', import.meta.url).href,
+                    new URL('../assets/img/wrj/wrj9.PNG', import.meta.url).href,
+                    new URL('../assets/img/wrj/wrj10.PNG', import.meta.url).href,
+                    new URL('../assets/img/wrj/wrj11.PNG', import.meta.url).href
+                ]
+            },
+            {
+                title: '作品-集宿',
+                description: '集宿项目整合多端管理与文旅住宿服务。运营中心审核民宿入驻申请、统筹策划线上活动；民宿老板通过 PMS 管理后台，管控客房入住、消费账单，沉淀私域客户资源；用户依托小程序，在线预订客房、线上支付，同步查看平台与地方政府联合推出的特色文旅活动，实现民宿运营数字化、住宿服务一体化。',
+                image: new URL('../assets/img/js/js1.jpg', import.meta.url).href,
+                tags: ['民宿管控', 'PMS管理', '文旅联动'],
+                galleryImages: [
+                    new URL('../assets/img/js/js1.jpg', import.meta.url).href,
+                    new URL('../assets/img/js/js2.jpg', import.meta.url).href,
+                    new URL('../assets/img/js/js3.png', import.meta.url).href,
+                    new URL('../assets/img/js/js4.jpg', import.meta.url).href,
+                    new URL('../assets/img/js/js5.png', import.meta.url).href,
+                    new URL('../assets/img/js/js7.png', import.meta.url).href,
+                    new URL('../assets/img/js/js8.PNG', import.meta.url).href,
+                    new URL('../assets/img/js/js9.PNG', import.meta.url).href,
+                    new URL('../assets/img/js/js10.PNG', import.meta.url).href,
+                    new URL('../assets/img/js/js11.PNG', import.meta.url).href
+                ]
             }
         ]);
 
@@ -242,46 +286,86 @@ export default {
             email: '',
             message: ''
         });
+        const PUBLIC_KEY = 'zWuCyw444THpWcbz9'
+        const SERVICE_ID = 'service_z6lik6c'
+        const TEMPLATE_ID = 'template_m709y4c'
 
         const activeIndex = ref(0);
-        const lightboxOpen = ref(false);
-        const lightboxIndex = ref(0);
         const currentSection = ref('');
+        
+        const projectGalleryOpen = ref(false);
+        const currentProject = ref(null);
+        const projectImageIndex = ref(0);
+        
+        const imagePreviewOpen = ref(false);
+        const currentPreviewProject = ref(null);
+        const currentPreviewIndex = ref(0);
 
         // 将标题字符串转换为单个字母数组，用于动画显示
-        const titleLetters = computed(() => 'CREATIVE'.split(''));
+        const titleLetters = computed(() => 'DEVELOPER'.split(''));
 
         /**
-         * 打开图片灯箱
+         * 打开图片预览
+         * @param {object} project - 项目对象
          * @param {number} index - 图片索引
          */
-        const openLightbox = (index) => {
-            // 设置当前显示的图片索引
-            lightboxIndex.value = index;
-            // 显示灯箱
-            lightboxOpen.value = true;
-            // 隐藏页面滚动条，防止灯箱打开时页面仍可滚动
+        const openProjectImage = (project, index) => {
+            currentPreviewProject.value = project;
+            currentPreviewIndex.value = index;
+            imagePreviewOpen.value = true;
             document.body.style.overflow = 'hidden';
         };
 
         /**
-         * 关闭图片灯箱
+         * 关闭图片预览
          */
-        const closeLightbox = () => {
-            // 隐藏灯箱
-            lightboxOpen.value = false;
-            // 恢复页面滚动
+        const closeImagePreview = () => {
+            imagePreviewOpen.value = false;
+            currentPreviewProject.value = null;
             document.body.style.overflow = '';
+        };
+
+        /**
+         * 上一张图片
+         */
+        const prevImage = () => {
+            if (!currentPreviewProject.value || currentPreviewIndex.value === 0) return;
+            currentPreviewIndex.value--;
+        };
+
+        /**
+         * 下一张图片
+         */
+        const nextImage = () => {
+            if (!currentPreviewProject.value) return;
+            const total = currentPreviewProject.value.galleryImages.length;
+            if (currentPreviewIndex.value >= total - 1) return;
+            currentPreviewIndex.value++;
         };
 
         /**
          * 处理表单提交
          */
-        const handleSubmit = () => {
-            // 显示提交成功提示
-            alert('Message sent successfully!');
-            // 重置表单数据
-            formData.value = { name: '', email: '', message: '' };
+        const sendEmail = async () => {
+            // 验证表单数据
+            if (!formData.value.email || !formData.value.message) {
+                alert('请输入邮箱和消息');
+                return;
+            }
+
+            const params = {
+                user_email: formData.value.email,
+                name: formData.value.name || '匿名用户',
+                message: formData.value.message
+            }
+
+            try {
+                await emailjs.send(SERVICE_ID, TEMPLATE_ID, params, PUBLIC_KEY)
+                alert('发送成功！')
+                formData.value = { name: '', email: '', message: '' };
+            } catch (err) {
+                alert('发送失败：' + err.text)
+            }            
         };
 
         // 粒子元素数组，用于组件卸载时清理
@@ -362,36 +446,26 @@ export default {
         // 当前页码索引
         let currentPage = 0;
         // 页面区块ID数组
-        const sections = ['hero', 'gallery', 'about', 'projects', 'contact'];
+        const sections = ['hero', 'project-1', 'project-2', 'project-3', 'project-4', 'project-5', 'about', 'contact'];
+        // 滚动状态重置计时器
+        let scrollResetTimeout = null;
+        // 手势结束计时器
+        let gestureEndTimeout = null;
 
         /**
          * 滚动到指定区块
          * @param {number} index - 目标区块索引
          */
         const scrollToSection = (index) => {
-            // 如果正在滚动，直接返回
-            if (isScrolling) return;
-            // 边界检查：索引不能小于0或大于区块总数
             if (index < 0 || index >= sections.length) return;
             
-            // 设置滚动状态为true
-            isScrolling = true;
-            // 更新当前页码
             currentPage = index;
-            // 更新当前区块状态（用于导航点高亮）
             currentSection.value = sections[index];
             
-            // 获取目标区块元素
             const element = document.getElementById(sections[index]);
             if (element) {
-                // 平滑滚动到目标区块顶部
                 element.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
-            
-            // 滚动动画结束后，重置滚动状态（延迟2500ms确保动画完成）
-            setTimeout(() => {
-                isScrolling = false;
-            }, 2500);
         };
 
         /**
@@ -399,20 +473,22 @@ export default {
          * @param {WheelEvent} e - 滚轮事件对象
          */
         const handleWheel = (e) => {
-            // 阻止默认滚轮行为
             e.preventDefault();
             
-            // 如果正在滚动，忽略新的滚轮事件
             if (isScrolling) return;
             
-            // 根据滚轮方向判断上下滚动
-            if (e.deltaY > 0) {
-                // 向下滚动 - 下一页
-                scrollToSection(currentPage + 1);
-            } else {
-                // 向上滚动 - 上一页
-                scrollToSection(currentPage - 1);
+            isScrolling = true;
+            
+            const direction = e.deltaY > 0 ? 1 : -1;
+            scrollToSection(currentPage + direction);
+            
+            if (gestureEndTimeout) {
+                clearTimeout(gestureEndTimeout);
             }
+            
+            gestureEndTimeout = setTimeout(() => {
+                isScrolling = false;
+            }, 1200);
         };
 
         /**
@@ -420,27 +496,46 @@ export default {
          * @param {KeyboardEvent} e - 键盘事件对象
          */
         const handleKeydown = (e) => {
-            // 如果正在滚动，忽略键盘事件
+            if (imagePreviewOpen.value) {
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevImage();
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    nextImage();
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeImagePreview();
+                }
+                return;
+            }
+            
             if (isScrolling) return;
             
-            // 向下方向键或PageDown - 下一页
             if (e.key === 'ArrowDown' || e.key === 'PageDown') {
                 e.preventDefault();
+                isScrolling = true;
                 scrollToSection(currentPage + 1);
+                
+                if (gestureEndTimeout) {
+                    clearTimeout(gestureEndTimeout);
+                }
+                gestureEndTimeout = setTimeout(() => {
+                    isScrolling = false;
+                }, 500);
             } 
-            // 向上方向键或PageUp - 上一页
             else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
                 e.preventDefault();
+                isScrolling = true;
                 scrollToSection(currentPage - 1);
+                
+                if (gestureEndTimeout) {
+                    clearTimeout(gestureEndTimeout);
+                }
+                gestureEndTimeout = setTimeout(() => {
+                    isScrolling = false;
+                }, 500);
             }
-        };
-
-        /**
-         * 处理导航点点击事件
-         * @param {number} index - 导航点对应的区块索引
-         */
-        const handleNavClick = (index) => {
-            scrollToSection(index);
         };
 
         /**
@@ -462,54 +557,66 @@ export default {
          * 组件挂载时执行的初始化操作
          */
         onMounted(() => {
-            // 创建粒子背景效果
             createParticles();
             
-            // 延迟100ms后初始化滚动动画观察器
-            // 确保DOM已完全渲染
             setTimeout(() => {
                 initScrollAnimation();
             }, 100);
             
-            // 设置初始当前区块为hero
             currentSection.value = 'hero';
             
-            // 添加滚轮事件监听（passive: false表示需要阻止默认行为）
             window.addEventListener('wheel', handleWheel, { passive: false });
-            // 添加键盘事件监听
             window.addEventListener('keydown', handleKeydown);
-            // 添加鼠标移动事件监听（鼠标跟随效果）
-            window.addEventListener('mousemove', handleMouseMove);
+            
+            if (!window.matchMedia('(max-width: 768px)').matches) {
+                window.addEventListener('mousemove', handleMouseMove);
+            }
         });
 
         /**
          * 组件卸载时执行的清理操作
          */
         onUnmounted(() => {
-            // 移除滚轮事件监听
             window.removeEventListener('wheel', handleWheel);
-            // 移除键盘事件监听
             window.removeEventListener('keydown', handleKeydown);
-            // 移除鼠标移动事件监听
-            window.removeEventListener('mousemove', handleMouseMove);
-            // 清理所有粒子元素
+            
+            if (scrollResetTimeout) {
+                clearTimeout(scrollResetTimeout);
+            }
+            
+            if (gestureEndTimeout) {
+                clearTimeout(gestureEndTimeout);
+            }
+            
+            if (!window.matchMedia('(max-width: 768px)').matches) {
+                window.removeEventListener('mousemove', handleMouseMove);
+            }
+            
             particles.forEach(p => p.remove());
         });
 
         return {
-            images,
             projects,
             formData,
+            PUBLIC_KEY,
+            SERVICE_ID,
+            TEMPLATE_ID,
             activeIndex,
-            lightboxOpen,
-            lightboxIndex,
             currentSection,
             titleLetters,
             streamText,
-            openLightbox,
-            closeLightbox,
-            handleSubmit,
-            scrollToSection
+            sendEmail,
+            scrollToSection,
+            projectGalleryOpen,
+            currentProject,
+            projectImageIndex,
+            imagePreviewOpen,
+            currentPreviewProject,
+            currentPreviewIndex,
+            openProjectImage,
+            closeImagePreview,
+            prevImage,
+            nextImage
         };
     }
 };
@@ -641,6 +748,12 @@ html, body {
     box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
 }
 
+@media screen and (max-width: 768px) {
+    .cursor-follower {
+        display: none;
+    }
+}
+
 .particle-bg {
     position: fixed;
     top: 0;
@@ -761,7 +874,7 @@ html, body {
     to { opacity: 1; }
 }
 
-.scroll-hint {
+/* .scroll-hint {
     position: absolute;
     bottom: 50px;
     left: 50%;
@@ -785,7 +898,7 @@ html, body {
     height: 50px;
     background: linear-gradient(to bottom, #00ffff, transparent);
     animation: scroll-line 2s ease-in-out infinite;
-}
+} */
 
 @keyframes scroll-line {
     0%, 100% {
@@ -819,98 +932,281 @@ html, body {
     background: linear-gradient(90deg, transparent, #00ffff, transparent);
 }
 
-.gallery-section {
-    padding: 100px 50px;
+.project-detail-section {
+    padding: 60px 50px;
     position: relative;
     z-index: 1;
     min-height: 100vh;
 }
 
-.gallery-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+.project-detail-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.project-detail-tags {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.project-detail-tags .project-tag {
+    padding: 8px 20px;
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    border-radius: 20px;
+    font-size: 12px;
+    color: #00ffff;
+    background: rgba(0, 255, 255, 0.1);
+}
+
+.project-detail-content {
     max-width: 1400px;
     margin: 0 auto;
 }
 
-.gallery-item {
-    position: relative;
-    cursor: pointer;
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.6s ease;
+.project-detail-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
 }
 
-.gallery-item.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.gallery-item:hover {
-    transform: scale(1.02);
-}
-
-.image-wrapper {
+.project-detail-image {
     position: relative;
     aspect-ratio: 16/10;
     overflow: hidden;
     border-radius: 10px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
 }
 
-.gallery-image {
+.project-detail-image.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.project-detail-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s ease;
 }
 
-.gallery-item:hover .gallery-image {
+.project-detail-image:hover img {
     transform: scale(1.1);
 }
 
-.image-overlay {
+.image-click-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
-    align-items: flex-end;
-    padding: 20px;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
+    cursor: pointer;
 }
 
-.gallery-item:hover .image-overlay {
+.project-detail-image:hover .image-click-overlay {
     opacity: 1;
 }
 
-.overlay-content h3 {
-    font-size: 20px;
-    margin-bottom: 5px;
+.click-icon {
+    font-size: 48px;
+    color: #00ffff;
+    font-weight: bold;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.view-all-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+    margin: 30px auto;
+    padding: 15px 30px;
+    background: rgba(0, 255, 255, 0.1);
+    border: 2px solid #00ffff;
+    border-radius: 30px;
+    color: #00ffff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.view-all-btn.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.view-all-btn:hover {
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+}
+
+.view-all-arrow {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.view-all-btn:hover .view-all-arrow {
+    transform: translateX(5px);
+}
+
+.image-preview-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fade-in 0.3s ease;
+}
+
+.preview-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-close:hover {
+    border-color: #00ffff;
     color: #00ffff;
 }
 
-.overlay-content p {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.image-glow {
+.preview-prev,
+.preview-next {
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 36px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.gallery-item:hover .image-glow {
+.preview-prev {
+    left: 30px;
+}
+
+.preview-next {
+    right: 30px;
+}
+
+.preview-prev:hover:not(:disabled),
+.preview-next:hover:not(:disabled) {
+    border-color: #00ffff;
+    color: #00ffff;
+    background: rgba(0, 255, 255, 0.1);
+}
+
+.preview-prev:disabled,
+.preview-next:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.preview-content {
+    text-align: center;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.preview-image {
+    max-width: 90vw;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
+}
+
+.preview-info {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.preview-title {
+    font-size: 18px;
+    color: #00ffff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.preview-counter {
+    padding: 8px 20px;
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    border-radius: 20px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.project-detail-description {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background: rgba(20, 20, 40, 0.5);
+    border-radius: 15px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.project-detail-description.animate-in {
     opacity: 1;
+    transform: translateY(0);
+}
+
+.project-detail-description p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .about-section {
@@ -1002,6 +1298,18 @@ html, body {
     margin-bottom: 40px;
 }
 
+.about-description a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: underline;
+}
+
+.about-description a:hover,
+.about-description a:active,
+.about-description a:focus {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: underline;
+}
+
 .about-stats {
     display: flex;
     gap: 40px;
@@ -1050,6 +1358,7 @@ html, body {
     transition: all 0.6s ease;
     transition-delay: var(--delay);
     perspective: 1000px;
+    cursor: pointer;
 }
 
 .project-card.animate-in {
@@ -1183,6 +1492,7 @@ html, body {
 
 .form-group {
     position: relative;
+    margin-bottom: 20px;
 }
 
 .form-input,
@@ -1224,6 +1534,7 @@ html, body {
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
+    pointer-events: none;
 }
 
 .form-group:focus-within .input-border {
@@ -1316,40 +1627,6 @@ html, body {
     letter-spacing: 2px;
 }
 
-.lightbox {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    animation: fade-in 0.3s ease;
-}
-
-.lightbox-close {
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    background: transparent;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.lightbox-close:hover {
-    border-color: #00ffff;
-    color: #00ffff;
-}
-
 .lightbox-image {
     max-width: 90%;
     max-height: 80vh;
@@ -1374,67 +1651,157 @@ html, body {
     color: rgba(255, 255, 255, 0.7);
 }
 
-.floating-nav {
+.project-gallery {
     position: fixed;
-    right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    align-items: center;
+    justify-content: center;
     z-index: 100;
+    animation: fade-in 0.3s ease;
 }
 
-.nav-dot {
-    position: relative;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+.gallery-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gallery-close:hover {
+    border-color: #00ffff;
+    color: #00ffff;
+}
+
+.gallery-prev,
+.gallery-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 32px;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    outline: none;
-    padding: 0;
 }
 
-.nav-dot-inner {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    transition: all 0.3s ease;
+.gallery-prev {
+    left: 30px;
 }
 
-.nav-dot:hover {
-    background: rgba(0, 255, 255, 0.2);
-    border-color: rgba(0, 255, 255, 0.5);
+.gallery-next {
+    right: 30px;
 }
 
-.nav-dot:hover .nav-dot-inner {
-    background: #00ffff;
-    transform: scale(1.2);
-}
-
-.nav-dot.active {
-    background: rgba(0, 255, 255, 0.3);
+.gallery-prev:hover,
+.gallery-next:hover {
     border-color: #00ffff;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    color: #00ffff;
+    background: rgba(0, 255, 255, 0.1);
 }
 
-.nav-dot.active .nav-dot-inner {
-    background: #00ffff;
-    transform: scale(1.5);
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+.gallery-content {
+    text-align: center;
+    max-width: 90%;
+}
+
+.gallery-title {
+    font-size: 32px;
+    color: #00ffff;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+.gallery-image {
+    max-width: 90vw;
+    max-height: 70vh;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
+}
+
+.gallery-info {
+    margin-top: 20px;
+}
+
+.gallery-counter {
+    display: inline-block;
+    padding: 8px 20px;
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    border-radius: 20px;
+    font-size: 14px;
+    color: #00ffff;
+    margin-bottom: 15px;
+}
+
+.gallery-description {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.view-gallery-btn {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 30px;
+    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.1);
+    color: #00ffff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+}
+
+.project-card:hover .view-gallery-btn {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.view-gallery-btn:hover {
+    background: rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
 }
 
 @media (max-width: 768px) {
-    .gallery-container,
-    .projects-container {
+    .project-detail-section {
+        padding: 60px 20px;
+    }
+    
+    .project-detail-gallery {
         grid-template-columns: 1fr;
+    }
+    
+    .project-detail-description {
+        padding: 20px;
+    }
+    
+    .project-detail-description p {
+        font-size: 14px;
     }
     
     .about-content {
@@ -1453,8 +1820,9 @@ html, body {
         font-size: 48px;
     }
     
-    .floating-nav {
-        right: 15px;
+    .view-all-btn {
+        padding: 12px 20px;
+        font-size: 14px;
     }
 }
 </style>
